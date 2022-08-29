@@ -115,7 +115,7 @@ app.post('/login', async(req, res) => {
     const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET);
     
     let id=null;
-    await  fetch('https://vue-rest.herokuapp.com/korisnik/getUserId', {
+    await  fetch('https://vue-rest.herokuapp.com/admin/korisnik/getUserId', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({korisnickoIme:par1})
