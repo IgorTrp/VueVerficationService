@@ -13,7 +13,7 @@ const app = express();
 const server= http.createServer(app);
 const io = new Server(server,{
     cors:{
-        origin:['http://localhost:11000','http://localhost:9000'],
+        origin:['https://vue-rest.herokuapp.com','https://vue-gui.herokuapp.com'],
         methods:['GET','POST'],
         credentials: true
     },
@@ -40,7 +40,7 @@ function authSocket(poruka,next){
 io.on('connection',socket=>{
     //socket.use(authSocket);
     socket.on('comment',poruka=>{
-        fetch('http://localhost:80/get/getNewest')
+        fetch('https://vue-rest.herokuapp.com/get/getNewest')
         .then(obj=>obj.json() )
             .then(res=>{
                 io.emit('comment',JSON.stringify(res));
@@ -73,7 +73,7 @@ app.post('/register', (req, res) => {
         povlastice:'k'
     };
 
-    fetch('http://localhost/admin/korisnik/register', {
+    fetch('https://vue-rest.herokuapp.com/admin/korisnik/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -94,7 +94,7 @@ app.post('/login', async(req, res) => {
         lozinka:par2
     }
 
-    await fetch('http://localhost/admin/korisnik/checkUserPrivilage', {
+    await fetch('https://vue-rest.herokuapp.com/admin/korisnik/checkUserPrivilage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -115,7 +115,7 @@ app.post('/login', async(req, res) => {
     const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET);
     
     let id=null;
-    await  fetch('http://localhost/admin/korisnik/getUserId', {
+    await  fetch('https://vue-rest.herokuapp.com/korisnik/getUserId', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({korisnickoIme:par1})
