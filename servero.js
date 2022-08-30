@@ -121,15 +121,14 @@ app.post('/login', async(req, res) => {
         body: JSON.stringify({korisnickoIme:par1})
     }).then(res => res.json())
     .then(data=>{
-        idd=data.id;
+        idd=data.Id;
     }).catch( err => console.log());
 
     /*res.cookie("token",token,{secure: true,sameSite:'none'});
     res.cookie("id",id,{secure: true,sameSite:'none'});*/
 
-    let podaci={idd:id,token:token};
     res.header('Access-Control-Allow-Credentials','true');
-    res.status(200).send(JSON.stringify(podaci));
+    res.status(200).send(JSON.stringify({id:id}));
     }
 }); 
 
