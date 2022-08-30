@@ -13,7 +13,7 @@ const app = express();
 const server= http.createServer(app);
 const io = new Server(server,{
     cors:{
-        origin:['https://vue-rest.herokuapp.com','https://vue-gui.herokuapp.com'],
+        origin:['https://vue-rest.herokuapp.com','https://vue-gui.herokuapp.com','http://localhost:80/'],
         methods:['GET','POST'],
         credentials: true
     },
@@ -124,8 +124,8 @@ app.post('/login', async(req, res) => {
         id=data.Id;
     }).catch( err => console.log());
 
-    res.cookie("token",token,{secure: false,sameSite:'none'});
-    res.cookie("id",id,{secure: false,sameSite:'none'});
+    res.cookie("token",token,{secure: true,sameSite:'none'});
+    res.cookie("id",id,{secure: true,sameSite:'none'});
 
     res.header('Access-Control-Allow-Credentials','true');
     res.status(200).send("Ulogovali ste se");
