@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 const fetch = require('node-fetch');
 const http=require('http');
 const {Server}=require('socket.io');
@@ -20,7 +20,7 @@ const io = new Server(server,{
     allowEIO3:true
 });
 
-function authSocket(poruka,next){
+/*function authSocket(poruka,next){
     if(poruka.cookies.token==null){
         next(new Error('Nemate dozvolu'));
     }
@@ -35,7 +35,7 @@ function authSocket(poruka,next){
                 }
             })
     }
-}
+}*/
 
 io.on('connection',socket=>{
     //socket.use(authSocket);
@@ -63,7 +63,7 @@ var corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+//app.use(cookieParser());
 
 app.post('/register', (req, res) => {
 
@@ -124,11 +124,11 @@ app.post('/login', async(req, res) => {
         id=data.Id;
     }).catch( err => console.log());
 
-    res.cookie("token",token,{secure: true,sameSite:'none'});
-    res.cookie("id",id,{secure: true,sameSite:'none'});
+    /*res.cookie("token",token,{secure: true,sameSite:'none'});
+    res.cookie("id",id,{secure: true,sameSite:'none'});*/
 
     res.header('Access-Control-Allow-Credentials','true');
-    res.status(200).send("Ulogovali ste se");
+    res.status(200).send(JSON.stringify({token:token,id:id}));
     }
 }); 
 
@@ -136,7 +136,7 @@ app.post('/login', async(req, res) => {
 app.post('/auth', (req, res) => {
     let povlastice='';
     try{
-    povlastice= jwt.verify(req.cookies.token,process.env.ACCESS_TOKEN_SECRET);
+    povlastice= jwt.verify(/*req.cookies.token*/res.body.token,process.env.ACCESS_TOKEN_SECRET);
     }
     catch(err){
         res.status(400).send("Greska pri proveri kolacica "+err);
@@ -151,7 +151,7 @@ app.post('/auth', (req, res) => {
 });
 
 app.post('/authm', (req, res) => {
-    let token=/*req.cookies['token'];*/req.body.povlastice;
+    let token=req.body.povlastice;
     if(token=== 'undefined')
         res.status(500).send("Nemate kolacic");
 
@@ -169,7 +169,7 @@ app.post('/authm', (req, res) => {
 });
 
 app.post('/authLoggedIn', (req, res) => {
-    let token=/*req.cookies['token'];*/req.body.povlastice;
+    let token=req.body.povlastice;
     if(token=== 'undefined')
         res.status(500).send("Nemate kolacic");
 
