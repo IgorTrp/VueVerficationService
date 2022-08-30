@@ -114,21 +114,21 @@ app.post('/login', async(req, res) => {
     
     const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET);
     
-    let id=null;
+    let idd=null;
     await  fetch('https://vue-rest.herokuapp.com/admin/korisnik/getUserId', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({korisnickoIme:par1})
     }).then(res => res.json())
     .then(data=>{
-        id=data.Id;
+        idd=data.Id;
     }).catch( err => console.log());
 
     /*res.cookie("token",token,{secure: true,sameSite:'none'});
     res.cookie("id",id,{secure: true,sameSite:'none'});*/
 
     res.header('Access-Control-Allow-Credentials','true');
-    res.status(200).send(JSON.stringify({id:id,token:token}));
+    res.status(200).send(JSON.stringify({id:id}));
     }
 }); 
 
