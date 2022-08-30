@@ -128,7 +128,7 @@ app.post('/login', async(req, res) => {
     res.cookie("id",id,{secure: true,sameSite:'none'});*/
 
     res.header('Access-Control-Allow-Credentials','true');
-    res.status(200).send(JSON.stringify({token:token,id:id}));
+    res.status(200).send(JSON.stringify({id:id,token:token}));
     }
 }); 
 
