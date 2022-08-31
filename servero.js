@@ -171,7 +171,7 @@ app.post('/authm', (req, res) => {
 app.post('/authLoggedIn', (req, res) => {
     let token=req.body.povlastice;
     if(token=== 'undefined')
-        res.status(500).send("Nemate kolacic");
+        res.status(500).send("Nemate token");
 
     
     try{
@@ -180,7 +180,7 @@ app.post('/authLoggedIn', (req, res) => {
             res.status(200).send("Uspesno ste ulogovani");
         }
         else{
-            res.status(400).send("Nemate dobar kolacic");
+            res.status(400).send("Nemate odgovarajuce kredencijale");
         }
     }
     catch(err){
